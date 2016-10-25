@@ -6,7 +6,7 @@ import telegram
 import time
 from orm import User, session
 from register import register_handler
-
+from advertising import ad_handler
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -67,6 +67,7 @@ def main():
     dp.add_handler(CommandHandler("start", start, pass_args=True))
 
     dp.add_handler(register_handler)
+    dp.add_handler(ad_handler)
     # dp.add_handler(search_handler)
     # dp.add_handler(CallbackQueryHandler(button))
 
