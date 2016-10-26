@@ -21,7 +21,7 @@ skip_button = 'رد کردن'
 agree_button = 'قبول'
 cancel_button = '/cancel'
 finish_msg = 'پایان'
-agree_msg = 'توافق نامه با ثبت نام در این سامانه شما می پذیرید که ...'
+agree_msg = 'توافق نامه به زودی تکمیل شده و از طریق همین ربات به اطلاع کاربران خواهد رسید. آیا با این شروط موافق هستید؟'
 users = {}
 
 def next_step(bot, update, step):

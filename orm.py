@@ -34,20 +34,31 @@ class User(Base):
     province = Column(String(32))
     city = Column(String(32))
     register_date = Column(Integer)
-    comment = Column(String(200))
+    comment = Column(String(1024))
+
+
+class Category(Base):
+    __tablename__ = 'categories'
+    id = Column(Integer, primary_key=True)
+    comment = Column(String(1024))
+
 
 class Advertising(Base):
     __tablename__ = "advertisings"
 
     id = Column(Integer, primary_key=True)
-    picture = Column(String(64))
-    comment = Column(String(256))
+    comment = Column(String(1024))
 
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User", back_populates="advertisings")
 
+    category_id = Column(Integer, ForeignKey('categories.id'))
+    category = relationship("Category", back_populates="advertisings")
+
 
 User.advertisings = relationship("Advertising", order_by=Advertising.id, back_populates="user")
+
+Category.advertisings = relationship("Advertising", order_by=Advertising.id, back_populates="category")
 
 
 Base.metadata.create_all(engine)
