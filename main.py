@@ -4,9 +4,10 @@ from telegram.bot import Bot
 from telegram.update import Update
 import telegram
 import time
-from orm import User, session
+from orm import User, session, Advertising
 from register import register_handler
 from advertising import ad_handler
+import os
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -54,6 +55,17 @@ def echo(bot, update):
 update = {'update_id': 322708031, 'message': {'message_id': 206, 'from': {'id': 288911713, 'last_name': '', 'type': '', 'first_name': 'فرهاد', 'username': 'farhamous'}, 'supergroup_chat_created': False, 'group_chat_created': False, 'caption': '', 'new_chat_photo': [], 'migrate_to_chat_id': 0, 'channel_chat_created': False, 'delete_chat_photo': False, 'date': 1476337723, 'chat': {'id': 288911713, 'last_name': '', 'first_name': 'فرهاد', 'title': '', 'type': 'private', 'username': 'farhamous'}, 'migrate_from_chat_id': 0, 'new_chat_title': '', 'entities': [{'type': 'bot_command', 'offset': 0, 'length': 9}], 'text': '/register', 'photo': []}}
 
 
+def search(bot, update, args):
+    i = update.message.chat_id
+    for ad in session.query(Advertising).all():
+        if os.path.exists('picture/{}-{}'.format(ad.user.chat_id,ad.id)):
+            pic = 'picture/{}-{}'.format(ad.user.chat_id,ad.id)
+        else:
+            pic = None
+        message = '{}\n{}'.format(ad.comment, ad.user.username)
+        bot.sendMessage(i, text=message)
+
+
 def error(bot, update, error):
     print('Update "%s" caused error "%s"' % (update, error))
 
@@ -65,6 +77,8 @@ def main():
     dp = updater.dispatcher
 
     dp.add_handler(CommandHandler("start", start, pass_args=True))
+
+    dp.add_handler(CommandHandler("search", start, pass_args=True))
 
     dp.add_handler(register_handler)
     dp.add_handler(ad_handler)
