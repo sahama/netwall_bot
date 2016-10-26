@@ -27,7 +27,7 @@ def start(bot, update, args):
     if user:
         if user.username == telegram_user.username:
             bot.sendMessage(chat_id=update.message.chat_id, text='خوش آمدید {}'.format(user.first_name))
-            bot.sendMessage(chat_id=update.message.chat_id, text='برای بروز رسانی پروفایل خود از /register و برای جستجو در پروفایل های موجود از /search استفاده کنید')
+            bot.sendMessage(chat_id=update.message.chat_id, text='برای بروز رسانی پروفایل خود از /register و برای جستجو در آگهی های موجود از /search استفاده کنید همچنین برای درج آگهی می توانید از /ad استفاده کنید')
         else:
             bot.sendMessage(chat_id=update.message.chat_id, text='به نظر می رسد شما نام کاربری خود را تغییر داده اید. در این صورت اطلاعات خود را به روز کنید')
 
@@ -62,8 +62,12 @@ def search(bot, update, args):
             pic = 'picture/{}-{}'.format(ad.user.chat_id,ad.id)
         else:
             pic = None
+
         message = '{}\n{}'.format(ad.comment, ad.user.username)
-        bot.sendMessage(i, text=message)
+        if pic:
+            bot.sendPhoto(chat_id=i, photo=open(pic, 'rb'), caption=message)
+        else:
+            bot.sendMessage(i, text=message)
 
 
 def error(bot, update, error):
@@ -78,7 +82,7 @@ def main():
 
     dp.add_handler(CommandHandler("start", start, pass_args=True))
 
-    dp.add_handler(CommandHandler("search", start, pass_args=True))
+    dp.add_handler(CommandHandler("search", search, pass_args=True))
 
     dp.add_handler(register_handler)
     dp.add_handler(ad_handler)
