@@ -48,6 +48,9 @@ class Advertising(Base):
 
     id = Column(Integer, primary_key=True)
     comment = Column(String(1024))
+    province = Column(String(32))
+    city = Column(String(32))
+
 
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship("User", back_populates="advertisings")

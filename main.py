@@ -7,6 +7,7 @@ import time
 from orm import User, session, Advertising
 from register import register_handler
 from advertising import ad_handler
+from search import search_handler
 import os
 
 # Enable logging
@@ -82,8 +83,8 @@ def main():
 
     dp.add_handler(CommandHandler("start", start, pass_args=True))
 
-    dp.add_handler(CommandHandler("search", search, pass_args=True))
 
+    dp.add_handler(search_handler)
     dp.add_handler(register_handler)
     dp.add_handler(ad_handler)
     # dp.add_handler(search_handler)
