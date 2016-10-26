@@ -1,6 +1,12 @@
 import sqlalchemy
 from sqlalchemy import create_engine
-engine = create_engine('mysql+pymysql://root:1@127.0.0.1/netwall_bot?charset=utf8', echo=False)
+import socket
+if socket.gethostname() == 'sipoco':
+    engine = create_engine(
+        'mysql+pymysql://root:aiz1uvu0ibohKai4ohhu7aid deok3ohs7ieteeQua1shoosh@127.0.0.1/netwall_bot?charset=utf8',
+        echo=False)
+else:
+    engine = create_engine('mysql+pymysql://root:1@127.0.0.1/netwall_bot?charset=utf8', echo=False)
 
 from sqlalchemy.orm import sessionmaker
 
